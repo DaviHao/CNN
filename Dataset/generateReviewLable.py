@@ -70,6 +70,7 @@ if __name__ == "__main__":
     if "deceptive" in label:
         flag = 0
 
+    maxLength = 0
     outFile=open(outputFile,'w')
     for subdir, dirs, files in os.walk(inputFolder):
         for eachfile in files:
@@ -81,8 +82,12 @@ if __name__ == "__main__":
                 for sentence in sentences:
                     sentence = sentence.strip()
                     sentence = util.clean_text(sentence)
-                    if sentence != '' and len(sentence) > 1:
-                        outFile.write(str(flag) + " " + sentence+"\n")
+                    sentenceLen = len(sentence.split())
+                    if sentenceLen > maxLength:
+                        maxLength = sentenceLen
+                    if sentence != '' and sentenceLen > 1 and sentenceLen < 100:
+                        outFile.write(str(flag) + "\n" + sentence)
+    print "Max length of sentence is " +str(maxLength)
     outFile.close()
 
 

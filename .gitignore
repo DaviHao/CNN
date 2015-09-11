@@ -1,4 +1,5 @@
 *.txt
+*.text
 Dataset/op*/
 Dataset/result/
 Yelp/
@@ -11,3 +12,6 @@ run*
 vectors*
 data
 words
+*.in
+*.out
+newdata
