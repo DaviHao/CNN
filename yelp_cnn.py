@@ -125,7 +125,7 @@ model = Sequential()
 #model.add(Dropout(0.25))
 
 # set parameters:
-sentence_len = 150
+sentence_len = 100
 word2vec_dim = 50
 
 
