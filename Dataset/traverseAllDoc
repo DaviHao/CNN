@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SENTIMENTLIST=("negative_polarity" "positive_polarity")
+TRUTHLIST=("deceptive_from_MTurk" "truthful_from_Web" "truthful_from_TripAdvisor")
+
+mkdir -p result
+
+for SENTIMENT in "${SENTIMENTLIST[@]}" ; do
+	for TRUTH in "${TRUTHLIST[@]}" ; do
+		for i in 1 2 3 4 5 ; do
+			# python generateReviewLable.py --input=/Users/haotianzhang/Project/keras/datasets/op_spam_v1.4/negative_polarity/deceptive_from_MTurk/fold2 --output=result/2.txt --label=nd
+			if [ -d `pwd`/op_spam_v1.4/$SENTIMENT/$TRUTH/fold"$i" ] ; then
+				python generateReviewLable.py --input=`pwd`/op_spam_v1.4/"$SENTIMENT"/"$TRUTH"/fold"$i" --output=result/"$SENTIMENT"_"$TRUTH"_fold"$i".txt --label="$SENTIMENT"_"$TRUTH"
+			fi
+		done		
+	done
+done

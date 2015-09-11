@@ -1,0 +1,13 @@
+*.txt
+Dataset/op*/
+Dataset/result/
+Yelp/
+binary*
+garbage/
+papers/
+report/
+word2vec
+run*
+vectors*
+data
+words
