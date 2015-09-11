@@ -1,6 +1,7 @@
 *.txt
 *.text
 Dataset/op*/
+Dataset/shuffleData
 Dataset/result/
 Yelp/
 binary*
@@ -15,3 +16,4 @@ words
 *.in
 *.out
 newdata
+shuffleData

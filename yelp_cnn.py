@@ -5,6 +5,8 @@ np.random.seed(1337) # for reproducibility
 
 #import random
 
+print("entering cnn")
+
 import sys
 
 from keras.preprocessing import sequence
@@ -49,7 +51,7 @@ def load_data(filename):
     return X, Y, N, Dimension, SentenceL
         
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 2:
     print("missing parameters\n")
     exit()
 
@@ -66,15 +68,15 @@ print("OK!")
 #print dataY
 
 
-#ratio = 0.8
-#pos = int(len(dataX) * ratio)
+ratio = 0.8
+pos = int(len(dataX) * ratio)
 
 #print("Spliting training data and testing data...")
 
-#X_train = np.array(dataX[:pos])
-#y_train = np.array(dataY[:pos])
-#X_test = np.array(dataX[pos:])
-#y_test = np.array(dataY[pos:])
+X_train = np.array(dataX[:pos])
+Y_train = np.array(dataY[:pos])
+X_test = np.array(dataX[pos:])
+Y_test = np.array(dataY[pos:])
 
 #print("OK!")
 
@@ -83,15 +85,18 @@ print("Reshaping data...")
 #X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1], X_train.shape[2])
 #X_test = X_test.reshape(X_test.shape[0], 1, X_test.shape[1], X_test.shape[2])
 
-dataX = np.array(dataX)
-dataX = dataX.reshape(dataX.shape[0], 1, dataX.shape[1], dataX.shape[2])
-
-dataY = np.array(dataY)
+#dataX = np.array(X_train)
+X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1], X_train.shape[2])
+X_test = X_test.reshape(X_test.shape[0], 1, X_test.shape[1], X_test.shape[2])
+#dataY = np.array(dataY)
 
 print("OK!")
 
-print("X shape:", dataX.shape)
-print("Y shape:", dataY.shape)
+print("train X shape:", X_train.shape)
+print("train Y shape:", Y_train.shape)
+print("test X shape:", X_test.shape)
+print("test Y shape:", Y_test.shape)
+
 
 #print("Preprocessing labels...")
 #nb_classes = 5
@@ -141,7 +146,7 @@ hiddenA_dim = 64
 hiddenB_dim = 8
 
 batch_size = 32
-nb_epoch = 5
+nb_epoch = 10
 
 
 model.add(Convolution2D(nb_filter = filterA_num, stack_size = 1, nb_row = filterA_len, nb_col = word2vec_dim, border_mode = "valid", activation = "relu"))
@@ -192,39 +197,39 @@ model.compile(loss='binary_crossentropy', optimizer="adam", class_mode="binary")
 
 
 #model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=nb_epoch, show_accuracy=True, validation_data=(X_test, y_test))
-model.fit(dataX, dataY, batch_size=batch_size, nb_epoch=nb_epoch, show_accuracy=True)
+model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch, show_accuracy=True)
 
 
-print("loading testing data...")
-print(sys.argv[2])
+#print("loading testing data...")
+#print(sys.argv[2])
 
-testX, testY, testN, testDimension, testSentenceL = load_data(sys.argv[2])
+#testX, testY, testN, testDimension, testSentenceL = load_data(sys.argv[2])
 
-print("# reviews = ", testN)
+#print("# reviews = ", testN)
 
-print("OK!")
+#print("OK!")
 
-print("Reshaping data...")
+#print("Reshaping data...")
 
-testX = np.array(testX)
-testY = np.array(testY)
+#testX = np.array(testX)
+#testY = np.array(testY)
 
-testX = testX.reshape(testX.shape[0], 1, testX.shape[1], testX.shape[2])
+#testX = testX.reshape(testX.shape[0], 1, testX.shape[1], testX.shape[2])
 
-print("OK!")
+#print("OK!")
 
-score = model.evaluate(testX, testY, show_accuracy = True, verbose = 1)
+#score = model.evaluate(testX, testY, show_accuracy = True, verbose = 1)
 
-print("Test Loss = ", score[0])
-print("Test Accuracy = ", score[1])
+#print("Test Loss = ", score[0])
+#print("Test Accuracy = ", score[1])
 
-result = model.predict_classes(testX, verbose = 1)
+result = model.predict_classes(X_test, verbose = 1)
 
 result = result.tolist()
 
 counter = 0
 for i in range(len(result)):
-    if result[i] == testY[i]:
+    if result[i] == Y_test[i]:
         counter += 1
 ratio = float(counter) / len(result)
 print("my accuracy = ", ratio)

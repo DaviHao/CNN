@@ -7,12 +7,11 @@ echo "testing decreptive and truthful data"
 # #for k in 1 5 10 15 80 75 70 65 60 55 50 45 40 35 30 25 20
 # do
 # echo "running with ratio = $k / 1000"
-text_file=newdata
+text_file=shuffleData
 train_file=train.in
-test_file=test.in
 result_file=result.out
 ./filter vectors50 $text_file $train_file 100
-python yelp_cnn.py $train_file $test_file | tee $result_file 
+python yelp_cnn.py $train_file | tee $result_file 
 # done
 
 #echo $text_file
